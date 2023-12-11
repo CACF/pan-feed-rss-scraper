@@ -1,5 +1,5 @@
-feed_urls = [
-    {
+feed_urls = {
+    "AP-News": {
         "media_origin": "foreign",
         "source": "AP-News",
         "feed_with_content": True,
@@ -54,7 +54,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "Reuters": {
         "media_origin": "foreign",
         "source": "Reuters",
         "feed_with_content": True,
@@ -157,7 +157,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "CNBC": {
         "media_origin": "foreign",
         "source": "CNBC",
         "feed_with_content": False,
@@ -244,7 +244,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "The-News": {
         "media_origin": "local",
         "source": "The-News",
         "feed_with_content": False,
@@ -387,7 +387,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "Express-Tribune": {
         "media_origin": "local",
         "source": "Express-Tribune",
         "feed_with_content": True,
@@ -506,7 +506,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "Al-Jazeera": {
         "media_origin": "foreign",
         "source": "Al-Jazeera",
         "feed_with_content": False,
@@ -517,7 +517,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "BBC": {
         "media_origin": "foreign",
         "source": "BBC",
         "feed_with_content": False,
@@ -560,7 +560,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "DW-News": {
         "media_origin": "foreign",
         "source": "DW-News",
         "feed_with_content": False,
@@ -607,7 +607,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "The-Guardian": {
         "media_origin": "foreign",
         "source": "The-Guardian",
         "feed_with_content": False,
@@ -842,7 +842,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "Abb Takk TV": {
         "media_origin": "local",
         "source": "Abb Takk TV",
         "feed_with_content": True,
@@ -853,7 +853,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "SUCH-TV": {
         "media_origin": "local",
         "source": "SUCH-TV",
         "feed_with_content": True,
@@ -892,7 +892,7 @@ feed_urls = [
             },
         ],
     },
-    {
+    "Ariana-News": {
         "media_origin": "foreign",
         "source": "Ariana-News",
         "feed_with_content": True,
@@ -903,4 +903,4 @@ feed_urls = [
             },
         ],
     },
-]
+}

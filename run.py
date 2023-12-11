@@ -1,7 +1,8 @@
 import os
 import uvicorn
 from mangum import Mangum
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
+from feed_urls import feed_urls
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
 
@@ -18,10 +19,23 @@ def home():
     return {"api_version": "1.0"}
 
 
+@app.get("/sources")
+def sources():
+    news = list(feed_urls.keys())
+    return {"sources": news}
+
+
 @app.get("/ingest")
-def start_feed():
+def start_feed(
+    source: str = Query(..., title="Source", description="Provide a valid source")
+):
     try:
-        feed_starter()
+        if source is not None and source in feed_urls:
+            feed_starter(source)
+        else:
+            return JSONResponse(
+                {"status": "failed", "message": "Please provide a valid source"},
+            )
         return JSONResponse(
             {"status": "success"},
         )
