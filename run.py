@@ -27,11 +27,12 @@ def sources():
 
 @app.get("/ingest")
 def start_feed(
-    source: str = Query(..., title="Source", description="Provide a valid source")
+    source: str = Query(..., title="Source", description="Provide a valid source"), 
+    genre: str= Query(..., title="Genre", description="Provide a valid genre")
 ):
     try:
         if source is not None and source in feed_urls:
-            feed_starter(source)
+            feed_starter(source, genre)
         else:
             return JSONResponse(
                 {"status": "failed", "message": "Please provide a valid source"},

@@ -6,7 +6,7 @@ from feed_utilities import FeedParser
 from feed_utilities import MongoDBClient
 
 
-def feed_starter(news="Ariana-News"):
+def feed_starter(news="Ariana-News", genre=None):
     # document_list = list()
     total_time = 0
     print("Feed Ingestion has started !!!!\n\n")
@@ -19,37 +19,38 @@ def feed_starter(news="Ariana-News"):
 
     if "urls" in feed:
         for url_dict in feed["urls"]:
-            genre_start_time = time()
-            url = url_dict.get("url")
-            genre = url_dict.get("genre")
+            if genre and url_dict.get("genre", None) == genre:
+                genre_start_time = time()
+                url = url_dict.get("url")
+                genre = url_dict.get("genre")
 
-            data_list = FeedParser.rss_feeds(
-                media_origin, source, genre, url, feed_with_content
-            )
+                data_list = FeedParser.rss_feeds(
+                    media_origin, source, genre, url, feed_with_content
+                )
 
-            # creating an instance of MongoDB
-            mongo_client = MongoDBClient(
-                "mongodb://{}:{}/".format(
-                    os.environ.get("MONGO_HOST"), os.environ.get("MONGO_PORT")
-                ),
-                os.environ.get("DATABASE"),
-            )
+                # creating an instance of MongoDB
+                mongo_client = MongoDBClient(
+                    "mongodb://{}:{}/".format(
+                        os.environ.get("MONGO_HOST"), os.environ.get("MONGO_PORT")
+                    ),
+                    os.environ.get("DATABASE"),
+                )
 
-            # Inserting documents into MongoDB collection
-            _ = mongo_client.insert_documents(os.environ.get("COLLECTION"), data_list)
+                # Inserting documents into MongoDB collection
+                _ = mongo_client.insert_documents(os.environ.get("COLLECTION"), data_list)
 
-            genre_stop_time = time()
-            genre_time = genre_stop_time - genre_start_time
+                genre_stop_time = time()
+                genre_time = genre_stop_time - genre_start_time
 
-            print(
-                "\n\n------------------------------------------------------------------------------"
-            )
-            print(
-                f'Feed of "{source}", "{genre.upper()}" completed in {round(genre_time, 2)} seconds'
-            )
-            print(
-                "------------------------------------------------------------------------------\n\n"
-            )
+                print(
+                    "\n\n------------------------------------------------------------------------------"
+                )
+                print(
+                    f'Feed of "{source}", "{genre.upper()}" completed in {round(genre_time, 2)} seconds'
+                )
+                print(
+                    "------------------------------------------------------------------------------\n\n"
+                )
 
         source_stop_time = time()
         source_time = source_stop_time - source_start_time
