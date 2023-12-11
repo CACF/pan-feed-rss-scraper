@@ -1,7 +1,7 @@
 import os
 import uvicorn
 from mangum import Mangum
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Body
 from feed_urls import feed_urls
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv
@@ -27,16 +27,10 @@ def sources():
 
 @app.get("/ingest")
 def start_feed(
-    source: str = Query(..., title="Source", description="Provide a valid source"), 
-    genre: str= Query(..., title="Genre", description="Provide a valid genre")
+    data_dict: dict = Body(..., example={"sources": ["genres"]})
 ):
     try:
-        if source is not None and source in feed_urls:
-            feed_starter(source, genre)
-        else:
-            return JSONResponse(
-                {"status": "failed", "message": "Please provide a valid source"},
-            )
+        feed_starter(data_dict)
         return JSONResponse(
             {"status": "success"},
         )
