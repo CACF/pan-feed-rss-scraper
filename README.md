@@ -12,15 +12,18 @@ Make sure you have installed Python 3 on your device
 ```
 * pan-feed-rss-scraper/
   |--- app/
-  |    |--- __init__.py
-  |    |--- blueprints.py
-  |    |--- manage.py
-  |    |--- models.py
-  |    |--- schemas.py
-  |    |--- settings.py
+  |    |--- utils
+  |    |    |--- feed_urls.py
+  |    |    |--- feed_utilities.py
+  |    |--- v1
+  |    |    |--- blueprints.py
+  |    |    |--- feed_blc.py
   |--- .env
   |--- .gitignore
-  |--- .requirements.txt
+  |--- Dockerfile
+  |--- README.md  
+  |--- requirements.txt
+  |--- run.py
 ```
 
 
@@ -34,7 +37,7 @@ pip install virtualenv
 ```
 virtualenv venv
 > On windows -> venv\Scripts\activate
-> On linux -> . source venv/bin/activate
+> On linux -> source venv/bin/activate
 ```
 3. Change directory into admin-api folder.
 ```
