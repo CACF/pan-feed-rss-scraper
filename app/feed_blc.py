@@ -1,21 +1,24 @@
 import os
 from time import time
-
+from fastapi import HTTPException
 from app.utils.feed_urls import feed_urls
 from app.utils.feed_utilities import FeedParser, MongoDBClient
 
 
 def feed_starter(data_dict):
+    if not data_dict.get("sources", None):
+        raise HTTPException(status_code=422, detail="Sources key cannot be empty or null")
     total_time = 0
     source_start_time = time()
     print("Feed Ingestion has started !!!!\n\n")
-    for source_name in data_dict:
+    sources_to_extract = data_dict.get("sources", []) or feed_urls if "all" in data_dict.get("sources") else []
+    for source_name in sources_to_extract:
         feed = feed_urls.get(source_name)
         media_origin = feed.get("media_origin", "Unknown")
         feed_with_content = feed.get("feed_with_content", False)
         if "urls" in feed:
             for url_dict in feed["urls"]:
-                if url_dict.get("genre", None) in data_dict[source_name]:
+                if not data_dict.get("genres") or url_dict.get("genre", None) in data_dict.get("genres", []):
                     genre_start_time = time()
                     url = url_dict.get("url")
                     genre = url_dict.get("genre")

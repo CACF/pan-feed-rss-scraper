@@ -2,7 +2,7 @@ from mangum import Mangum
 from fastapi import FastAPI
 from fastapi import Body
 from app.utils.feed_urls import feed_urls
-from app.v1.feed_blc import feed_starter
+from app.feed_blc import feed_starter
 from fastapi.responses import JSONResponse
 
 app = FastAPI()
@@ -22,7 +22,7 @@ def sources():
 
 @app.get("/ingest")
 def start_feed(
-    data_dict: dict = Body(..., example={"sources": ["genres"]})
+    data_dict: dict = Body(..., example={"sources": [], "genres": []})
 ):
     try:
         feed_starter(data_dict)
