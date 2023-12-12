@@ -25,6 +25,10 @@ def start_feed(
     data_dict: dict = Body(..., example={"sources": [], "genres": []})
 ):
     try:
+        if not data_dict.get("sources", None):
+            return JSONResponse(
+                {"status": "failed", "Error": "Please provide valid sources."},
+            )
         feed_starter(data_dict)
         return JSONResponse(
             {"status": "success"},
