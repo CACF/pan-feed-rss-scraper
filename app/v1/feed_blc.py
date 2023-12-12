@@ -1,9 +1,8 @@
 import os
 from time import time
 
-from app.feed_urls import feed_urls
-from feed_utilities import FeedParser
-from feed_utilities import MongoDBClient
+from app.utils.feed_urls import feed_urls
+from app.utils.feed_utilities import FeedParser, MongoDBClient
 
 
 def feed_starter(data_dict):

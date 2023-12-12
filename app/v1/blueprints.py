@@ -1,8 +1,8 @@
 from mangum import Mangum
 from fastapi import FastAPI
 from fastapi import Body
-from app.feed_urls import feed_urls
-from app.feed_blc import feed_starter
+from app.utils.feed_urls import feed_urls
+from app.v1.feed_blc import feed_starter
 from fastapi.responses import JSONResponse
 
 app = FastAPI()
