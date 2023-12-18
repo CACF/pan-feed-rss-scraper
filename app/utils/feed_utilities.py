@@ -19,7 +19,9 @@ class MongoDBClient:
         collection = self.db[collection_name]
         for document in document_list:
             collection.update_one(
-                {"_id": document["_id"]}, {"$set": document}, upsert=True
+                {"_id": document["_id"]},
+                {"$set": document},
+                upsert=True,
             )
         return
 
