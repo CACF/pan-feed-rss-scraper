@@ -28,16 +28,28 @@ def feed_starter(data_dict):
                         media_origin, source_name, genre, url, feed_with_content
                     )
 
+                    mongo_user = os.environ.get("MONGO_USERNAME")
+                    mongo_pass = os.environ.get("MONGO_PASSWORD")
+
                     # creating an instance of MongoDB
-                    mongo_client = MongoDBClient(
-                        "mongodb://{}:{}@{}:{}/".format(
-                            os.environ.get("MONGO_USERNAME"),
-                            os.environ.get("MONGO_PASSWORD"),
-                            os.environ.get("MONGO_HOST"),
-                            os.environ.get("MONGO_PORT"),
-                        ),
-                        os.environ.get("DATABASE"),
-                    )
+                    if mongo_user and mongo_pass:
+                        mongo_client = MongoDBClient(
+                            "mongodb://{}:{}@{}:{}/".format(
+                                mongo_user,
+                                mongo_pass,
+                                os.environ.get("MONGO_HOST"),
+                                os.environ.get("MONGO_PORT"),
+                            ),
+                            os.environ.get("DATABASE"),
+                        )
+                    else:
+                        mongo_client = MongoDBClient(
+                            "mongodb://{}:{}/".format(
+                                os.environ.get("MONGO_HOST"),
+                                os.environ.get("MONGO_PORT"),
+                            ),
+                            os.environ.get("DATABASE"),
+                        )
 
                     # Inserting documents into MongoDB collection
                     _ = mongo_client.insert_documents(
