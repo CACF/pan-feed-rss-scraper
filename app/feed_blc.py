@@ -27,17 +27,27 @@ def feed_starter(data_dict):
                     data_list = FeedParser.rss_feeds(
                         media_origin, source_name, genre, url, feed_with_content
                     )
-
+                    username = os.environ.get("MONGO_USERNAME")
+                    password = os.environ.get("MONGO_PASSWORD")
                     # creating an instance of MongoDB
-                    mongo_client = MongoDBClient(
-                        "mongodb://{}:{}@{}:{}/".format(
-                            os.environ.get("MONGO_USERNAME"),
-                            os.environ.get("MONGO_PASSWORD"),
-                            os.environ.get("MONGO_HOST"),
-                            os.environ.get("MONGO_PORT"),
-                        ),
-                        os.environ.get("DATABASE"),
-                    )
+                    if username and password:    
+                        mongo_client = MongoDBClient(
+                            "mongodb://{}:{}@{}:{}/".format(
+                                os.environ.get("MONGO_USERNAME"),
+                                os.environ.get("MONGO_PASSWORD"),
+                                os.environ.get("MONGO_HOST"),
+                                os.environ.get("MONGO_PORT"),
+                            ),
+                            os.environ.get("DATABASE"),
+                        )
+                    else:
+                        mongo_client = MongoDBClient(
+                            "mongodb://{}:{}/".format(
+                                os.environ.get("MONGO_HOST"),
+                                os.environ.get("MONGO_PORT"),
+                            ),
+                            os.environ.get("DATABASE"),
+                        )
 
                     # Inserting documents into MongoDB collection
                     _ = mongo_client.insert_documents(
