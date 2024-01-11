@@ -8,14 +8,18 @@ def feed_starter(data_dict):
     total_time = 0
     source_start_time = time()
     print("Feed Ingestion has started !!!!\n\n")
-    sources_to_extract = feed_urls if "all" in data_dict.get("sources") else data_dict.get("sources", [])
+    sources_to_extract = (
+        feed_urls if "all" in data_dict.get("sources") else data_dict.get("sources", [])
+    )
     for source_name in sources_to_extract:
         feed = feed_urls.get(source_name)
         media_origin = feed.get("media_origin", "Unknown")
         feed_with_content = feed.get("feed_with_content", False)
         if "urls" in feed:
             for url_dict in feed["urls"]:
-                if not data_dict.get("genres") or url_dict.get("genre", None) in data_dict.get("genres", []):
+                if not data_dict.get("genres") or url_dict.get(
+                    "genre", None
+                ) in data_dict.get("genres", []):
                     genre_start_time = time()
                     url = url_dict.get("url")
                     genre = url_dict.get("genre")
@@ -26,14 +30,19 @@ def feed_starter(data_dict):
 
                     # creating an instance of MongoDB
                     mongo_client = MongoDBClient(
-                        "mongodb://{}:{}/".format(
-                            os.environ.get("MONGO_HOST"), os.environ.get("MONGO_PORT")
+                        "mongodb://{}:{}@{}:{}/".format(
+                            os.environ.get("MONGO_USERNAME"),
+                            os.environ.get("MONGO_PASSWORD"),
+                            os.environ.get("MONGO_HOST"),
+                            os.environ.get("MONGO_PORT"),
                         ),
                         os.environ.get("DATABASE"),
                     )
 
                     # Inserting documents into MongoDB collection
-                    _ = mongo_client.insert_documents(os.environ.get("COLLECTION"), data_list)
+                    _ = mongo_client.insert_documents(
+                        os.environ.get("COLLECTION"), data_list
+                    )
 
                     genre_stop_time = time()
                     genre_time = genre_stop_time - genre_start_time
