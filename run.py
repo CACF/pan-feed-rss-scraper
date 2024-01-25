@@ -12,7 +12,7 @@ from app.feed_blc import feed_starter
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-handler = Mangum(app)
+
 
 origins = ["*"]
 
@@ -23,6 +23,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+handler = Mangum(app)
+
 
 @app.get("/")
 def home():
