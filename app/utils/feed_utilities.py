@@ -190,8 +190,19 @@ class FeedParser:
                     if p_tag_text.startswith("Follow @"):
                         break
                     content += p_tag_text + "\n"
-                breakpoint()
+
                 driver.quit()
+            elif document.get('source', None) == 'CNBC':
+                all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
+                if all_paragraphs:
+                    for element in all_paragraphs.children:
+                        if element.name == 'p':
+                            content += element.text.strip() + "\n\n"
+                        elif element.name == 'ul':
+                            list_items = element.find_all('li')
+                            for li in list_items:
+                                content += li.text.strip() + "\n"
+                            content += "\n"  # Add extra newline after list
             else:
                 # Request and Grab html
                 res = requests.get(news_link)
@@ -243,6 +254,8 @@ class FeedParser:
 
             document["content"] = content
 
+            if len(document["content"]) < 20:
+                document["content"] = ""
         return document
 
     @staticmethod
