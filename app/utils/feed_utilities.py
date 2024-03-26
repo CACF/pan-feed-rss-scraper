@@ -190,23 +190,28 @@ class FeedParser:
                     if p_tag_text.startswith("Follow @"):
                         break
                     content += p_tag_text + "\n"
-
                 driver.quit()
-            elif document.get('source', None) == 'CNBC':
-                all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
-                if all_paragraphs:
-                    for element in all_paragraphs.children:
-                        if element.name == 'p':
-                            content += element.text.strip() + "\n\n"
-                        elif element.name == 'ul':
-                            list_items = element.find_all('li')
-                            for li in list_items:
-                                content += li.text.strip() + "\n"
-                            content += "\n"  # Add extra newline after list
             else:
                 # Request and Grab html
                 res = requests.get(news_link)
                 soup = BeautifulSoup(res.text, "html.parser")
+                if document.get('source', None) == 'CNBC':
+                    all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
+                    if all_paragraphs:
+                        for element in all_paragraphs.children:
+                            if element.name == 'p':
+                                content += element.text.strip() + "\n\n"
+                            elif element.name == 'ul':
+                                list_items = element.find_all('li')
+                                for li in list_items:
+                                    content += li.text.strip() + "\n"
+                                content += "\n"  # Add extra newline after list
+                elif document.get('source', None) == 'The-Guardian':
+                    selector = ".article-body-commercial-selector > p"
+                    direct_child_p_tags = soup.select(selector)
+                    for p_tag in direct_child_p_tags:
+                        content += p_tag.get_text().strip() + "\n"
+
             # Extracting document Title if not present in feed
             if not title:
                 title = soup.find("h1")
