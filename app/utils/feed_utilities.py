@@ -43,7 +43,7 @@ class FeedParser:
     """A class to parse XML feed data"""
 
     @staticmethod
-    def rss_feeds(media_origin, source, genre, url, feed_with_content):
+    def rss_feeds(media_origin, source_name, genre, url, feed_with_content):
         """A method to convert XML data to JSON"""
 
         feed = feedparser.parse(url)
@@ -53,7 +53,7 @@ class FeedParser:
         tags = []
 
         # Max number of threads to use
-        max_threads = 20
+        max_threads = 10 if source_name == 'Reuters' else 20
 
         # Extract Last Build Date of Feed
         lastBuildDate = feed.get("feed").get("published")
@@ -80,7 +80,7 @@ class FeedParser:
             doc_params["author"] = news_item.get("author")
             doc_params["title"] = news_item.get("title")
             doc_params["media_origin"] = media_origin
-            doc_params["source"] = source
+            doc_params["source"] = source_name
             doc_params["genre"] = genre
             doc_params["feedBuildDate"] = lastBuildDate
             doc_params["articlePubDate"] = (
