@@ -55,7 +55,7 @@ feed_urls = {
     },
     "Reuters": {
         "media_origin": "foreign",
-        "feed_with_content": False,
+        "feed_with_content": True,
         "urls": [
             {
                 "genre": "Top-News",
@@ -682,6 +682,10 @@ feed_urls = {
             {
                 "genre": "Environment",
                 "url": "https://www.theguardian.com/environment/fossil-fuels/rss",
+            },
+            {
+                "genre": "Environment",
+                "url": "https://www.theguardian.com/environment/carbon-emissions/rss",
             },
             {
                 "genre": "Environment",

@@ -8,14 +8,7 @@ import feedparser
 import concurrent.futures
 from unidecode import unidecode
 from html import unescape
-from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+
 
 class MongoDBClient:
     def __init__(self, connection_string, db_name):
@@ -176,37 +169,10 @@ class FeedParser:
         else:
             content = ""
             print(f"[*] Processing Article from Link :: {news_link}")
-            if document.get('source', None) == 'Reuters':
-                options = Options()
-                options.page_load_strategy = 'eager'
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-                driver.get(news_link)
-                soup = BeautifulSoup(driver.page_source, 'html.parser')
-                all_p_tags = soup.find_all(lambda tag: tag.has_attr('data-testid') and tag['data-testid'].startswith('paragraph-'))
-                for p_tag in all_p_tags:
-                    p_tag_text = p_tag.get_text().strip()
-                    if p_tag_text.startswith("Follow @"):
-                        break
-                    content += p_tag_text + "\n"
+            # Request and Grab html
+            res = requests.get(news_link)
+            soup = BeautifulSoup(res.text, "html.parser")
 
-                driver.quit()
-            elif document.get('source', None) == 'CNBC':
-                all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
-                if all_paragraphs:
-                    for element in all_paragraphs.children:
-                        if element.name == 'p':
-                            content += element.text.strip() + "\n\n"
-                        elif element.name == 'ul':
-                            list_items = element.find_all('li')
-                            for li in list_items:
-                                content += li.text.strip() + "\n"
-                            content += "\n"  # Add extra newline after list
-            else:
-                # Request and Grab html
-                res = requests.get(news_link)
-                soup = BeautifulSoup(res.text, "html.parser")
             # Extracting document Title if not present in feed
             if not title:
                 title = soup.find("h1")
