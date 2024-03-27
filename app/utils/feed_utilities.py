@@ -220,8 +220,6 @@ class FeedParser:
 
             document["content"] = content
 
-            if len(document["content"]) < 20:
-                document["content"] = ""
         return document
 
     @staticmethod
