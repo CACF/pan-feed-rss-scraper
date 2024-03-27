@@ -168,15 +168,15 @@ feed_urls = {
                 "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=100727362",
             },
             {
-                "genre": "US-News",
+                "genre": "US-news",
                 "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15837362",
             },
             {
-                "genre": "Asia-News",
+                "genre": "Asia-news",
                 "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19832390",
             },
             {
-                "genre": "Europe-News",
+                "genre": "Europe-news",
                 "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19794221",
             },
             {
@@ -212,7 +212,7 @@ feed_urls = {
                 "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=44877279",
             },
             {
-                "genre": "Science-Technology",
+                "genre": "Technology",
                 "url": "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=19854910",
             },
             {
@@ -524,7 +524,7 @@ feed_urls = {
                 "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
             },
             {
-                "genre": "UK-News",
+                "genre": "UK-news",
                 "url": "https://feeds.bbci.co.uk/news/uk/rss.xml",
             },
             {
@@ -848,7 +848,7 @@ feed_urls = {
                 "url": "https://www.suchtv.pk/latest-news.feed",
             },
             {
-                "genre": "Pakistan-News",
+                "genre": "Pak-News",
                 "url": "https://www.suchtv.pk/pakistan.feed",
             },
             {
