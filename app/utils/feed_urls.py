@@ -729,7 +729,7 @@ feed_urls = {
             },
             {
                 "genre": "Health",
-                "url": "https://www.theguardian.com/society/health/rss",
+                "url": "https://www.theguardian.com/society/health",
             },
             {
                 "genre": "Health",
