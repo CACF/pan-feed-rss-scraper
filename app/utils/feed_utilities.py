@@ -195,7 +195,8 @@ class FeedParser:
                 # Request and Grab html
                 res = requests.get(news_link)
                 soup = BeautifulSoup(res.text, "html.parser")
-                if document.get('source', None) == 'CNBC':
+                # https://trello.com/c/tm265z2F/92-source-the-news-genre-politics-health-science-technology-entertainment-article-content-missing-from-database
+                if document.get('source', None) == 'The-News':
                     all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
                     if all_paragraphs:
                         for element in all_paragraphs.children:
@@ -206,11 +207,19 @@ class FeedParser:
                                 for li in list_items:
                                     content += li.text.strip() + "\n"
                                 content += "\n"  # Add extra newline after list
+                # https://trello.com/c/QyS1JeP0/73-the-guardian-genre-sports-entertainment-us-news-top-news-asia-pacific-news-science-technology-bangladesh-news-uk-news-extra-info
                 elif document.get('source', None) == 'The-Guardian':
                     selector = ".article-body-commercial-selector > p"
                     direct_child_p_tags = soup.select(selector)
                     for p_tag in direct_child_p_tags:
                         content += p_tag.get_text().strip() + "\n"
+                # elif document.get('source', None) == 'The-News':
+                #     all_div_tags = soup.find_all(class_='clearfix')
+                #     breakpoint()
+                #     for div_tag in all_div_tags:
+                #         content += div_tag.get_text().strip() + "\n"
+                #     breakpoint()
+
 
             # Extracting document Title if not present in feed
             if not title:
@@ -259,8 +268,8 @@ class FeedParser:
 
             document["content"] = content
 
-            if len(document["content"]) < 20:
-                document["content"] = ""
+            # if len(document["content"]) < 20:
+            #     document["content"] = ""
         return document
 
     @staticmethod
