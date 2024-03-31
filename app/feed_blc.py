@@ -19,7 +19,7 @@ def feed_starter(data_dict):
             for url_dict in feed["urls"]:
                 if not data_dict.get("genres") or url_dict.get(
                     "genre", None
-                ) in data_dict.get("genres", []):
+                ) in data_dict.get("genres", []) and not "https://cricketpakistan.com.pk" in url_dict.get("url"):
                     genre_start_time = time()
                     url = url_dict.get("url")
                     genre = url_dict.get("genre")
