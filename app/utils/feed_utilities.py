@@ -195,7 +195,6 @@ class FeedParser:
                 # Request and Grab html
                 res = requests.get(news_link)
                 soup = BeautifulSoup(res.text, "html.parser")
-                # https://trello.com/c/tm265z2F/92-source-the-news-genre-politics-health-science-technology-entertainment-article-content-missing-from-database
                 if document.get('source', None) == 'The-News':
                     all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
                     if all_paragraphs:
@@ -207,18 +206,17 @@ class FeedParser:
                                 for li in list_items:
                                     content += li.text.strip() + "\n"
                                 content += "\n"  # Add extra newline after list
-                # https://trello.com/c/QyS1JeP0/73-the-guardian-genre-sports-entertainment-us-news-top-news-asia-pacific-news-science-technology-bangladesh-news-uk-news-extra-info
+
                 elif document.get('source', None) == 'The-Guardian':
-                    selector = ".article-body-commercial-selector > p"
-                    direct_child_p_tags = soup.select(selector)
-                    for p_tag in direct_child_p_tags:
-                        content += p_tag.get_text().strip() + "\n"
-                # elif document.get('source', None) == 'The-News':
-                #     all_div_tags = soup.find_all(class_='clearfix')
-                #     breakpoint()
-                #     for div_tag in all_div_tags:
-                #         content += div_tag.get_text().strip() + "\n"
-                #     breakpoint()
+                    selector = ".article-body-commercial-selector > p, .article-body-commercial-selector > li"
+                    elements = soup.select(selector)
+                    for element in elements:
+                        # Check if the element (either p or li) contains any <em> tags directly
+                        em_tags = element.find_all('em')
+                        # Remove the <em> tags from the element's content to not include their text
+                        for em_tag in em_tags:
+                            em_tag.decompose()
+                        content += element.get_text().strip() + "\n"
 
 
             # Extracting document Title if not present in feed
@@ -261,7 +259,7 @@ class FeedParser:
                     content = all_paragraphs[0].text.strip()
 
             # Try 5th and direct method to populate content
-            if not content:
+            if not content and document.get('source', None) != 'The-Guardian':
                 all_p_tags = soup.find_all("p")
                 for p_tag in all_p_tags:
                     content += p_tag.get_text().strip() + "\n"
