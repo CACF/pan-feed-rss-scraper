@@ -1,6 +1,7 @@
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from datetime import datetime
+from app.utils.helper_classes.ReutersScraper import ReutersScraper
 from pymongo import MongoClient
 from dateutil.parser import parse
 from datetime import datetime
@@ -53,7 +54,7 @@ class FeedParser:
         tags = []
 
         # Max number of threads to use
-        max_threads = 10 if source_name == 'Reuters' else 20
+        max_threads = 1 if source_name == 'Reuters' else 20
 
         # Extract Last Build Date of Feed
         lastBuildDate = feed.get("feed").get("published")
@@ -177,20 +178,16 @@ class FeedParser:
             content = ""
             print(f"[*] Processing Article from Link :: {news_link}")
             if document.get('source', None) == 'Reuters':
-                options = Options()
-                options.page_load_strategy = 'eager'
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-                driver.get(news_link)
-                soup = BeautifulSoup(driver.page_source, 'html.parser')
+                scraper = ReutersScraper()
+                soup = scraper.load_page(news_link)
                 all_p_tags = soup.find_all(lambda tag: tag.has_attr('data-testid') and tag['data-testid'].startswith('paragraph-'))
                 for p_tag in all_p_tags:
                     p_tag_text = p_tag.get_text().strip()
                     if p_tag_text.startswith("Follow @"):
                         break
                     content += p_tag_text + "\n"
-                driver.quit()
+                scraper.close()
+                
             else:
                 # Request and Grab html
                 res = requests.get(news_link)
@@ -208,15 +205,25 @@ class FeedParser:
                                 content += "\n"  # Add extra newline after list
 
                 elif document.get('source', None) == 'The-Guardian':
-                    selector = ".article-body-commercial-selector > p, .article-body-commercial-selector > li"
-                    elements = soup.select(selector)
-                    for element in elements:
-                        # Check if the element (either p or li) contains any <em> tags directly
-                        em_tags = element.find_all('em')
-                        # Remove the <em> tags from the element's content to not include their text
-                        for em_tag in em_tags:
-                            em_tag.decompose()
-                        content += element.get_text().strip() + "\n"
+                    target_div = soup.find('div', {'id': 'maincontent'})
+
+                    def get_filtered_text(element):
+                        text_content = ''
+                        for child in element.descendants:
+                            if isinstance(child, NavigableString):
+                                # Traverse up the parent chain to see if any parent is a <figure>, <a>, or <img>
+                                undesired_found = False
+                                for parent in child.parents:
+                                    if parent.name in ['em', 'figure', 'img', 'header', 'footer', 'nav', 'label']:
+                                        undesired_found = True
+                                        break  # Stop checking further if an undesired parent is found
+                                
+                                # Only add the text if no undesired parent was found
+                                if not undesired_found:
+                                    text_content += child.strip() + ' '
+                        return text_content
+
+                    content = get_filtered_text(target_div)
 
 
             # Extracting document Title if not present in feed
