@@ -192,16 +192,51 @@ class FeedParser:
                 # Request and Grab html
                 res = requests.get(news_link)
                 soup = BeautifulSoup(res.text, "html.parser")
+                # Commented this code due to some confusion, 
+                # if document.get('source', None) == 'The-News':
+                #     all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
+                #     if all_paragraphs:
+                #         for element in all_paragraphs.children:
+                #             if element.name == 'p':
+                #                 content += element.text.strip() + "\n\n"
+                #             elif element.name == 'ul':
+                #                 list_items = element.find_all('li')
+                #                 for li in list_items:
+                #                     content += li.text.strip() + "\n"
+                #                 content += "\n"  # Add extra newline after list
+
                 if document.get('source', None) == 'The-News':
-                    all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
+                    all_paragraphs = soup.find("div", {"class": "story-detail"})
+                    seen_content = set()  # Set to keep track of unique paragraph texts
+                    preceding_h2 = all_paragraphs.find_previous('h2')
+                    if preceding_h2:
+                        preceding_h2_content = preceding_h2.get_text(strip=True)
+                        content += preceding_h2_content
+                        seen_content.add(preceding_h2_content)
+                    
                     if all_paragraphs:
                         for element in all_paragraphs.children:
                             if element.name == 'p':
-                                content += element.text.strip() + "\n\n"
+                                if element.find_parent('footer'):
+                                    continue  # Skip this <p> tag because it's inside a <footer>
+                                # Remove all <b> tags within the current <p> tag
+                                for b_tag in element.find_all('b'):
+                                    b_tag.decompose()
+                                
+                                # Get the text of the <p> tag, excluding <b> tags
+                                paragraph_text = element.get_text(strip=True)
+                                
+                                # Check if the paragraph starts with a dash or if it's already seen
+                                if paragraph_text.startswith('–') or paragraph_text.startswith('@') or paragraph_text in seen_content:
+                                    continue  # Skip adding this paragraph text to the content
+                                
+                                # Add unique and valid paragraph text to the set and content
+                                seen_content.add(paragraph_text)
+                                content += paragraph_text + "\n\n"
                             elif element.name == 'ul':
                                 list_items = element.find_all('li')
                                 for li in list_items:
-                                    content += li.text.strip() + "\n"
+                                    content += li.get_text(strip=True) + "\n"
                                 content += "\n"  # Add extra newline after list
 
                 elif document.get('source', None) == 'The-Guardian':
