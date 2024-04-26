@@ -25,7 +25,7 @@ class The_News_Scraper:
 
         if all_paragraphs:
             first_p = True  # Track if it's the first paragraph
-            for element in all_paragraphs.children:
+            for element in all_paragraphs.find_all():
                 if element.name == 'p':
                     if element.find_parent('footer'):
                         continue  # Skip this <p> tag because it's inside a <footer>
