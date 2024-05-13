@@ -6,6 +6,8 @@ class The_News_Scraper:
         self.soup = soup
     def process(self):
         story_detail_div = self.soup.find("div", {"class": "story-detail"})
+        if not story_detail_div:
+            story_detail_div = self.soup.find("div", {"class": "detail-desc"})
         seen_content = set()  # Set to keep track of unique paragraph texts
         content = ""
         
