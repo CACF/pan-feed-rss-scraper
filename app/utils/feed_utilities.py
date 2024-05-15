@@ -48,8 +48,26 @@ class FeedParser:
     @staticmethod
     def rss_feeds(media_origin, source_name, genre, url, feed_with_content):
         """A method to convert XML data to JSON"""
-
-        feed = feedparser.parse(url)
+        if source_name == "Reuters":
+            headers = {
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'accept-language': 'en-US,en;q=0.9',
+                'cache-control': 'max-age=0',
+                'priority': 'u=0, i',
+                'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"Linux"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'none',
+                'sec-fetch-user': '?1',
+                'upgrade-insecure-requests': '1',
+                'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+            }
+            response = requests.get(url, headers=headers)
+            feed = feedparser.parse(response.text)
+        else:
+            feed = feedparser.parse(url)
         thread_list = []
         document_list = []
         content = ""
