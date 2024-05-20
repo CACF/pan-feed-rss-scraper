@@ -10,7 +10,7 @@ class The_Guardian_Scraper:
             if isinstance(child, NavigableString):
                 # Check parents for undesired tags and class 'dcr-13gln72'
                 undesired_found = any(
-                    parent.name in ['em', 'figure', 'img', 'header', 'footer', 'nav', 'label'] or 
+                    parent.name in ['em', 'figure', 'img', 'header', 'footer', 'nav', 'label', 'a'] or 
                     'dcr-13gln72' in parent.get('class', [])
                     for parent in child.parents
                 )
@@ -20,5 +20,7 @@ class The_Guardian_Scraper:
     
     def extract_content(self):
         target_div = self.soup.find('div', {'id': 'maincontent'})
+        if not target_div:
+            target_div = self.soup.find('div', class_='mobile-drawer')
         return self.get_filtered_text(target_div) if target_div else ""
 

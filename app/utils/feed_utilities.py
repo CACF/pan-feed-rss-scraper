@@ -220,25 +220,6 @@ class FeedParser:
                 elif document.get('source', None) == 'The-Guardian':
                     handler = The_Guardian_Scraper(soup)
                     content = handler.extract_content()
-                    # target_div = soup.find('div', {'id': 'maincontent'})
-
-                    # def get_filtered_text(element):
-                    #     text_content = ''
-                    #     for child in element.descendants:
-                    #         if isinstance(child, NavigableString):
-                    #             # Traverse up the parent chain to see if any parent is a <figure>, <a>, or <img>
-                    #             undesired_found = False
-                    #             for parent in child.parents:
-                    #                 if parent.name in ['em', 'figure', 'img', 'header', 'footer', 'nav', 'label']:
-                    #                     undesired_found = True
-                    #                     break  # Stop checking further if an undesired parent is found
-                                
-                    #             # Only add the text if no undesired parent was found
-                    #             if not undesired_found:
-                    #                 text_content += child.strip() + ' '
-                    #     return text_content
-
-                    # content = get_filtered_text(target_div)
 
 
             # Extracting document Title if not present in feed
