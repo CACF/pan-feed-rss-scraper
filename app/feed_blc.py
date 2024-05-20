@@ -3,6 +3,12 @@ from time import time
 from app.utils.feed_urls import feed_urls
 from app.utils.feed_utilities import FeedParser, MongoDBClient
 
+# Function to check if the content meets the criteria
+def is_valid_content(content):
+    if not content or content.isspace():
+        return False
+    word_count = len(content.split())
+    return word_count >= 20
 
 def feed_starter(data_dict):
     total_time = 0
@@ -27,7 +33,8 @@ def feed_starter(data_dict):
                     data_list = FeedParser.rss_feeds(
                         media_origin, source_name, genre, url, feed_with_content
                     )
-
+                    # Filter out objects based on the content criteria
+                    cleaned_data_list = [data_obj for data_obj in data_list if is_valid_content(data_obj.get('content'))]
                     # creating an instance of MongoDB
                     mongo_client = MongoDBClient(
                         "mongodb://{}:{}@{}:{}/".format(
@@ -41,7 +48,7 @@ def feed_starter(data_dict):
 
                     # Inserting documents into MongoDB collection
                     _ = mongo_client.insert_documents(
-                        os.environ.get("COLLECTION"), data_list
+                        os.environ.get("COLLECTION"), cleaned_data_list
                     )
 
                     genre_stop_time = time()
