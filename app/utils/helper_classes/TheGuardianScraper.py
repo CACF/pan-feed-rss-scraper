@@ -22,5 +22,7 @@ class The_Guardian_Scraper:
         target_div = self.soup.find('div', {'id': 'maincontent'})
         if not target_div:
             target_div = self.soup.find('div', class_='mobile-drawer')
+        if not target_div.contents:
+            target_div = self.soup.find('div', class_='podcast__body')
         return self.get_filtered_text(target_div) if target_div else ""
 
