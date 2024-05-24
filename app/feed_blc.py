@@ -4,8 +4,10 @@ from app.utils.feed_urls import feed_urls
 from app.utils.feed_utilities import FeedParser, MongoDBClient
 
 # Function to check if the content meets the criteria
-def is_valid_content(content):
-    if not content or content.isspace():
+def is_valid_content(data_obj):
+    content = data_obj.get("content")
+    content_link = data_obj.get("_id")
+    if not content or content.isspace() or "https://cricketpakistan.com.pk" in content_link:
         return False
     word_count = len(content.split())
     return word_count >= 20
@@ -25,7 +27,7 @@ def feed_starter(data_dict):
             for url_dict in feed["urls"]:
                 if not data_dict.get("genres") or url_dict.get(
                     "genre", None
-                ) in data_dict.get("genres", []) and not "https://cricketpakistan.com.pk" in url_dict.get("url"):
+                ) in data_dict.get("genres", []):
                     genre_start_time = time()
                     url = url_dict.get("url")
                     genre = url_dict.get("genre")
@@ -34,7 +36,7 @@ def feed_starter(data_dict):
                         media_origin, source_name, genre, url, feed_with_content
                     )
                     # Filter out objects based on the content criteria
-                    cleaned_data_list = [data_obj for data_obj in data_list if is_valid_content(data_obj.get('content'))]
+                    cleaned_data_list = [data_obj for data_obj in data_list if is_valid_content(data_obj)]
                     # creating an instance of MongoDB
                     mongo_client = MongoDBClient(
                         "mongodb://{}:{}@{}:{}/".format(

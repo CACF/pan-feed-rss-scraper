@@ -262,7 +262,7 @@ class FeedParser:
                     content = all_paragraphs[0].text.strip()
 
             # Try 5th and direct method to populate content
-            if not content and document.get('source', None) != 'The-Guardian':
+            if not content:
                 all_p_tags = soup.find_all("p")
                 for p_tag in all_p_tags:
                     content += p_tag.get_text().strip() + "\n"
