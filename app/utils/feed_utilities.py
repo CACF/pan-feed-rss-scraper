@@ -4,6 +4,7 @@ from datetime import datetime
 from app.utils.helper_classes.ReutersScraper import ReutersScraper
 from app.utils.helper_classes.TheGuardianScraper import The_Guardian_Scraper
 from app.utils.helper_classes.TheNewsScraper import The_News_Scraper
+from app.utils.helper_classes.BBCScraper import BBC_Scraper
 from pymongo import MongoClient
 from dateutil.parser import parse
 from datetime import datetime
@@ -156,7 +157,7 @@ class FeedParser:
         """Method to prepare the single news document for mongoDB"""
 
         document = {}
-
+        news_link = "https://www.bbc.com/news/uk-northern-ireland-67892255?at_medium=RSS&at_campaign=KARANGA"
         document["_id"] = news_link
         document["media_origin"] = media_origin
         document["source"] = source
@@ -221,6 +222,9 @@ class FeedParser:
                     handler = The_Guardian_Scraper(soup)
                     content = handler.extract_content()
 
+                elif document.get('source', None) == 'BBC':
+                    handler = BBC_Scraper(soup)
+                    content = handler.extract_content()
 
             # Extracting document Title if not present in feed
             if not title:
