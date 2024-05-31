@@ -157,7 +157,7 @@ class FeedParser:
         """Method to prepare the single news document for mongoDB"""
 
         document = {}
-        news_link = "https://www.bbc.com/news/uk-northern-ireland-67892255?at_medium=RSS&at_campaign=KARANGA"
+        
         document["_id"] = news_link
         document["media_origin"] = media_origin
         document["source"] = source
