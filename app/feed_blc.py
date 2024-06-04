@@ -2,11 +2,15 @@ import os
 from time import time
 from app.utils.feed_urls import feed_urls
 from app.utils.feed_utilities import FeedParser, MongoDBClient
+import re
 
 # Function to check if the content meets the criteria
 def is_valid_content(data_obj):
     content = data_obj.get("content")
     content_link = data_obj.get("_id")
+    # Remove links from content
+    if content:
+        content = re.sub(r'http\S+|www\S+|https\S+', '', content, flags=re.MULTILINE)
     if not content or content.isspace() or "https://cricketpakistan.com.pk" in content_link:
         return False
     word_count = len(content.split())
