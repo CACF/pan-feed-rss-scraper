@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup, NavigableString
 from datetime import datetime
+from app.utils.helper_classes.CNBCScraper import CNBC_Scraper
 from app.utils.helper_classes.ReutersScraper import ReutersScraper
 from app.utils.helper_classes.TheGuardianScraper import The_Guardian_Scraper
 from app.utils.helper_classes.TheNewsScraper import The_News_Scraper
@@ -224,6 +225,10 @@ class FeedParser:
 
                 elif document.get('source', None) == 'BBC':
                     handler = BBC_Scraper(soup)
+                    content = handler.extract_content()
+
+                elif document.get('source', None) == 'CNBC':
+                    handler = CNBC_Scraper(soup)
                     content = handler.extract_content()
 
             # Extracting document Title if not present in feed
