@@ -879,7 +879,7 @@ feed_urls = {
     },
     "Ariana-News": {
         "media_origin": "foreign",
-        "feed_with_content": True,
+        "feed_with_content": False,
         "urls": [
             {
                 "genre": "Top-News",
