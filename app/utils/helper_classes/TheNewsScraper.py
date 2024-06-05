@@ -13,15 +13,7 @@ class The_News_Scraper:
         
         # Attempt to find all 'p' tags within this div
         p_tags = story_detail_div.find_all('p')
-        if p_tags:
-            if hasattr(story_detail_div, 'find_previous'):
-                # Handle the preceding h2
-                preceding_h2 = story_detail_div.find_previous('h2') if story_detail_div else None
-                if preceding_h2:
-                    preceding_h2_content = preceding_h2.get_text(strip=True)
-                    content += preceding_h2_content + ". "
-                    seen_content.add(preceding_h2_content)
-            
+        if p_tags:            
             # Handle the preceding table with a single character
             first_char = ""
             preceding_table = story_detail_div.find_previous('table') if story_detail_div else None
