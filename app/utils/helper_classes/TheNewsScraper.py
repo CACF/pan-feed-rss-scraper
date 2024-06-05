@@ -26,7 +26,7 @@ class The_News_Scraper:
                 first_p = True  # Track if it's the first paragraph
                 for element in story_detail_div.find_all():
                     # Attempt to find all 'p' tags within this div
-                    if element.name == 'p':
+                    if element.name == 'p' or element.name == 'h1':
                         if element.find_parent('footer'):
                             continue  # Skip this <p> tag because it's inside a <footer>
 
