@@ -5,26 +5,28 @@ class The_News_Scraper:
         self.document = document
         self.soup = soup
     def process(self):
-        story_detail_div = self.soup.find("div", {"class": "story-detail"})
-        if not story_detail_div:
-            story_detail_div = self.soup.find("div", {"class": "detail-desc"})
+        article_content_div = self.soup.find("div", {"class": "story-detail"})
+        if not article_content_div:
+            article_content_div = self.soup.find("div", {"class": "detail-desc"})
+        if not article_content_div:
+            article_content_div = self.soup.find("div", {"class": "detail-content"})
         seen_content = set()  # Set to keep track of unique paragraph texts
         content = ""
         
         # Attempt to find all 'p' tags within this div
-        p_tags = story_detail_div.find_all('p')
+        p_tags = article_content_div.find_all('p')
         if p_tags:            
             # Handle the preceding table with a single character
             first_char = ""
-            preceding_table = story_detail_div.find_previous('table') if story_detail_div else None
+            preceding_table = article_content_div.find_previous('table') if article_content_div else None
             if preceding_table:
                 table_text = preceding_table.get_text(strip=True)
                 if len(table_text) == 1:
                     first_char = table_text
 
-            if story_detail_div:
+            if article_content_div:
                 first_p = True  # Track if it's the first paragraph
-                for element in story_detail_div.find_all():
+                for element in article_content_div.find_all():
                     # Attempt to find all 'p' tags within this div
                     if element.name == 'p' or element.name == 'h1':
                         if element.find_parent('footer'):
@@ -55,7 +57,7 @@ class The_News_Scraper:
                         for li in list_items:
                             content += li.get_text(strip=True) + "\n"
                         content += "\n"  # Add extra newline after list
-        if not p_tags:
-            content = story_detail_div.get_text(strip=True)
+        else:
+            content = article_content_div.get_text(strip=True)
         return content  # Optionally return the content, if needed elsewhere
         
