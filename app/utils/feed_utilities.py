@@ -282,6 +282,9 @@ class FeedParser:
 
             # Try 5th and direct method to populate content
             if not content:
+                # Remove all video tags from the soup
+                for video_tag in soup.find_all("video"):
+                    video_tag.decompose()
                 all_p_tags = soup.find_all("p")
                 for p_tag in all_p_tags:
                     content += p_tag.get_text().strip() + "\n"
