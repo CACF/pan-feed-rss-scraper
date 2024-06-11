@@ -10,7 +10,7 @@ class The_Guardian_Scraper:
             if isinstance(child, NavigableString):
                 # Check parents for undesired tags and class 'dcr-13gln72'
                 undesired_found = any(
-                    parent.name in ['em', 'figure', 'img', 'header', 'footer', 'nav', 'label', 'a', 'time'] or 
+                    parent.name in ['em', 'figure', 'img', 'header', 'footer', 'nav', 'label', 'time'] or 
                     'dcr-13gln72' in parent.get('class', [])
                     for parent in child.parents
                 )

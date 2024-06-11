@@ -219,7 +219,7 @@ class FeedParser:
 
                 if document.get('source', None) == 'The-News':
                     handler = The_News_Scraper(document, soup)
-                    content = handler.process()
+                    content = handler.extract_content()
 
                 elif document.get('source', None) == 'The-Guardian':
                     handler = The_Guardian_Scraper(soup)
