@@ -1,4 +1,5 @@
 import requests
+import os
 from bs4 import BeautifulSoup, NavigableString
 from datetime import datetime
 from app.utils.helper_classes.AlJazeeraScraper import AlJazeera_Scraper
@@ -58,6 +59,7 @@ class FeedParser:
                 'accept-language': 'en-US,en;q=0.9',
                 'cache-control': 'max-age=0',
                 'priority': 'u=0, i',
+                'cookie':os.environ.get("COOKIES"),
                 'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Linux"',
@@ -160,7 +162,7 @@ class FeedParser:
         """Method to prepare the single news document for mongoDB"""
 
         document = {}
-        
+
         document["_id"] = news_link
         document["media_origin"] = media_origin
         document["source"] = source
