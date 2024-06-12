@@ -53,13 +53,12 @@ class FeedParser:
     @staticmethod
     def rss_feeds(media_origin, source_name, genre, url, feed_with_content):
         """A method to convert XML data to JSON"""
-        if source_name == "Reuters":
+        if source_name == "Reuters" or source_name == "AP-News":
             headers = {
                 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
                 'accept-language': 'en-US,en;q=0.9',
                 'cache-control': 'max-age=0',
                 'priority': 'u=0, i',
-                'cookie':os.environ.get("COOKIES"),
                 'sec-ch-ua': '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
                 'sec-ch-ua-mobile': '?0',
                 'sec-ch-ua-platform': '"Linux"',
@@ -70,6 +69,7 @@ class FeedParser:
                 'upgrade-insecure-requests': '1',
                 'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
             }
+            source_name == "Reuters" and headers.update({"cookie": os.environ.get("COOKIES")})
             response = requests.get(url, headers=headers)
             feed = feedparser.parse(response.text)
         else:
@@ -78,7 +78,6 @@ class FeedParser:
         document_list = []
         content = ""
         tags = []
-
         # Max number of threads to use
         max_threads = 10 if source_name == 'Reuters' else 20
 
@@ -87,7 +86,7 @@ class FeedParser:
 
         if not lastBuildDate:
             lastBuildDate = feed.get("feed").get("updated")
-
+        # breakpoint()
         for news_item in feed["items"]:
             if "content" in news_item:
                 content = (
@@ -102,6 +101,7 @@ class FeedParser:
                 tags = [tag.get("term") for tag in news_item.get("tags")]
 
             doc_params = {}
+            # breakpoint()
             doc_params["news_link"] = news_item.get("link")
             doc_params["article_id"] = news_item.get("id")
             doc_params["author"] = news_item.get("author")
@@ -124,6 +124,7 @@ class FeedParser:
         # ThreadPoolExecutor to perform tasks concurrently
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
             # Submit tasks for each document in the list
+            # breakpoint()
             future_to_document = {
                 executor.submit(
                     FeedParser.prepare_news_documents,
@@ -162,7 +163,7 @@ class FeedParser:
         """Method to prepare the single news document for mongoDB"""
 
         document = {}
-
+    
         document["_id"] = news_link
         document["media_origin"] = media_origin
         document["source"] = source
@@ -184,7 +185,7 @@ class FeedParser:
             document["feedBuildDate"] = (
                 datetime(*parsed_build_date) if parsed_build_date else None
             )
-
+        # breakpoint()
         # Parsing Article Publish Date
         if articlePubDate:
             parsed_pubDate = FeedParser.parse_flexible_datetime(
@@ -215,6 +216,7 @@ class FeedParser:
                 scraper.close()
                 
             else:
+                # breakpoint()
                 # Request and Grab html
                 res = requests.get(news_link)
                 soup = BeautifulSoup(res.text, "html.parser")
@@ -242,7 +244,7 @@ class FeedParser:
                 elif document.get('source', None) == 'Ariana-News':
                     handler = Ariana_Scraper(soup)
                     content = handler.extract_content()
-
+            # breakpoint()
             # Extracting document Title if not present in feed
             if not title:
                 title = soup.find("h1")
@@ -290,7 +292,7 @@ class FeedParser:
                 all_p_tags = soup.find_all("p")
                 for p_tag in all_p_tags:
                     content += p_tag.get_text().strip() + "\n"
-
+            # breakpoint()
             document["content"] = content
 
         return document
