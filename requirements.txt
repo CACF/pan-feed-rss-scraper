@@ -8,5 +8,4 @@ python-dotenv
 fastapi
 uvicorn
 mangum
-selenium
-webdriver-manager
+zenrows

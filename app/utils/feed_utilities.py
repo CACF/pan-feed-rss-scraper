@@ -15,15 +15,6 @@ from datetime import datetime
 import feedparser
 import concurrent.futures
 from unidecode import unidecode
-from html import unescape
-from selenium.webdriver.chrome.options import Options
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
 
 class MongoDBClient:
     def __init__(self, connection_string, db_name):
@@ -198,7 +189,6 @@ class FeedParser:
         if feed_with_content:
             print(f"[*] Processing Article from FEED :: {title}")
             soup = BeautifulSoup(content, "html.parser")
-            # soup = BeautifulSoup(unescape(content), "lxml")
             document["content"] = unidecode(soup.get_text(separator=" ", strip=True))
 
         else:
@@ -213,10 +203,8 @@ class FeedParser:
                     if p_tag_text.startswith("Follow @"):
                         break
                     content += p_tag_text + "\n"
-                scraper.close()
                 
             else:
-                # breakpoint()
                 # Request and Grab html
                 res = requests.get(news_link)
                 soup = BeautifulSoup(res.text, "html.parser")
