@@ -77,7 +77,7 @@ class FeedParser:
 
         if not lastBuildDate:
             lastBuildDate = feed.get("feed").get("updated")
-        # breakpoint()
+    
         for news_item in feed["items"]:
             if "content" in news_item:
                 content = (
@@ -115,7 +115,7 @@ class FeedParser:
         # ThreadPoolExecutor to perform tasks concurrently
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_threads) as executor:
             # Submit tasks for each document in the list
-            # breakpoint()
+
             future_to_document = {
                 executor.submit(
                     FeedParser.prepare_news_documents,
@@ -176,7 +176,7 @@ class FeedParser:
             document["feedBuildDate"] = (
                 datetime(*parsed_build_date) if parsed_build_date else None
             )
-        # breakpoint()
+        
         # Parsing Article Publish Date
         if articlePubDate:
             parsed_pubDate = FeedParser.parse_flexible_datetime(
@@ -232,7 +232,7 @@ class FeedParser:
                 elif document.get('source', None) == 'Ariana-News':
                     handler = Ariana_Scraper(soup)
                     content = handler.extract_content()
-            # breakpoint()
+            
             # Extracting document Title if not present in feed
             if not title:
                 title = soup.find("h1")
@@ -265,13 +265,13 @@ class FeedParser:
                 all_paragraphs = soup.find("div", {"data-module": "ArticleBody"})
                 if all_paragraphs:
                     content = all_paragraphs.text.strip()
-
+            
             # Try 4th Class if content still not found
             if not content:
                 all_paragraphs = soup.select(".ClipPlayer-clipPlayerIntroSummary")
                 if all_paragraphs:
                     content = all_paragraphs[0].text.strip()
-
+            
             # Try 5th and direct method to populate content
             if not content:
                 # Remove all video tags from the soup
@@ -280,7 +280,7 @@ class FeedParser:
                 all_p_tags = soup.find_all("p")
                 for p_tag in all_p_tags:
                     content += p_tag.get_text().strip() + "\n"
-            # breakpoint()
+            
             document["content"] = content
 
         return document
