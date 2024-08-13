@@ -252,8 +252,8 @@ class FeedParser:
             # Try 2nd Class if content not found
             if not news_article_tag:
                 news_article_tag = soup.select(".FeaturedContent-articleBody")
-
-            if news_article_tag:
+            
+            if news_article_tag and document.get('source', None) != 'CNBC':
                 all_paragraphs = news_article_tag[0].find_all("p")
                 parsed_paragraphs = [
                     single_para.text.strip() for single_para in all_paragraphs
