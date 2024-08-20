@@ -65,6 +65,21 @@ def start_feed(data_dict: dict = Body(..., example={"sources": [], "genres": []}
             {"status": "failed", "Error": str(ex)},
         )
 
+@app.get("/sources-with-genres")
+def get_sources():
+    sources_with_genres = {}
+    for source, details in feed_urls.items():
+        # Initialize the source entry with an empty list
+        sources_with_genres[source] = []
+        genre_set = set()
+        # Extract city names from the set, assuming each set contains only one city name
+        for genres in details["urls"]:
+            # Add the city name to the source's list
+            # breakpoint()
+            if genres["genre"] not in genre_set:
+                sources_with_genres[source].append(genres["genre"])
+                genre_set.add(genres["genre"])
+    return sources_with_genres
 
 if __name__ == "__main__":
     uvicorn.run(
