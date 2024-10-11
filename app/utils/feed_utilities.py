@@ -15,6 +15,7 @@ from datetime import datetime
 import feedparser
 import concurrent.futures
 from unidecode import unidecode
+import re
 
 class MongoDBClient:
     def __init__(self, connection_string, db_name):
@@ -189,7 +190,11 @@ class FeedParser:
         if feed_with_content:
             print(f"[*] Processing Article from FEED :: {title}")
             soup = BeautifulSoup(content, "html.parser")
-            document["content"] = unidecode(soup.get_text(separator=" ", strip=True))
+            cleaned_content = soup.get_text(separator=" ", strip=True)
+            if source == 'CNN-Arabic':
+                # Remove any remaining special characters or CDATA markers, but keep the actual text
+                cleaned_content = re.sub(r'<!\[CDATA\[|\]\]>', '', cleaned_content)  # Remove CDATA markers
+            document["content"] = cleaned_content
 
         else:
             content = ""

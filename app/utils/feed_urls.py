@@ -887,4 +887,38 @@ feed_urls = {
             },
         ],
     },
+    "CNN-Arabic": {
+        "media_origin": "foreign",
+        "feed_with_content": True,
+        "urls": [
+            {
+                "genre": "Top-News",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_topnews.rss",
+            },
+            {
+                "genre": "World-News",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_world.rss",
+            },
+            {
+                "genre": "Middle-East-News",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_mideast.rss",
+            },
+            {
+                "genre": "Business",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_business.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_entertainment.rss",
+            },
+            {
+                "genre": "Science-Technology",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_scitech.rss",
+            },
+            {
+                "genre": "Sports",
+                "url": "http://arabic.cnn.com/rss/cnnarabic_sport.rss",
+            },
+        ],
+    },
 }
