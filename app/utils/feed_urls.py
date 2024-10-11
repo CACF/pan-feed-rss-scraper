@@ -887,4 +887,38 @@ feed_urls = {
             },
         ],
     },
+    "Gulf-Times": {
+        "media_origin": "foreign",
+        "feed_with_content": True,
+        "urls": [
+            {
+                "genre": "Top-News",
+                "url": "https://www.gulf-times.com/rssFeed/10",
+            },
+            {
+                "genre": "World-News",
+                "url": "https://www.gulf-times.com/rssFeed/9",
+            },
+            {
+                "genre": "Middle-East-News",
+                "url": "https://www.gulf-times.com/rssFeed/6",
+            },
+            {
+                "genre": "US-News",
+                "url": "https://www.gulf-times.com/rssFeed/9/1",
+            },
+            {
+                "genre": "Sports",
+                "url": "https://www.gulf-times.com/rssFeed/3",
+            },
+            {
+                "genre": "China-News",
+                "url": "https://www.gulf-times.com/rssFeed/9/15",
+            },
+            {
+                "genre": "Business",
+                "url": "https://www.gulf-times.com/rssFeed/2",
+            },
+        ],
+    },
 }
