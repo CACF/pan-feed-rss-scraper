@@ -237,6 +237,10 @@ class FeedParser:
                 elif document.get('source', None) == 'Ariana-News':
                     handler = Ariana_Scraper(soup)
                     content = handler.extract_content()
+                
+                elif document.get('source', None) == 'ZahraTal-Khaleej' or document.get('source', None) == 'CNN-Arabic':
+                    document["language"] = "arabic"
+
             
             # Extracting document Title if not present in feed
             if not title:

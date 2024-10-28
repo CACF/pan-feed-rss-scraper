@@ -921,4 +921,38 @@ feed_urls = {
             },
         ],
     },
+    "ZahraTal-Khaleej": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "urls": [
+            {
+                "genre": "Top-News",
+                "url": "https://www.zahratalkhaleej.ae/feed.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://zahratalkhaleej.ae/mashaheer.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://zahratalkhaleej.ae/anaqa.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://zahratalkhaleej.ae/mojtama.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://zahratalkhaleej.ae/hayat.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://zahratalkhaleej.ae/manzel.rss",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://zahratalkhaleej.ae/zahra.rss",
+            },
+        ],
+    },
 }
