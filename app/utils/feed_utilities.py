@@ -9,6 +9,7 @@ from app.utils.helper_classes.ReutersScraper import ReutersScraper
 from app.utils.helper_classes.TheGuardianScraper import The_Guardian_Scraper
 from app.utils.helper_classes.TheNewsScraper import The_News_Scraper
 from app.utils.helper_classes.BBCScraper import BBC_Scraper
+from app.utils.helper_classes.ZahraTalKhaleej import ZahraTalKhaleej_Scraper
 from pymongo import MongoClient
 from dateutil.parser import parse
 from datetime import datetime
@@ -238,8 +239,10 @@ class FeedParser:
                     handler = Ariana_Scraper(soup)
                     content = handler.extract_content()
                 
-                elif document.get('source', None) == 'ZahraTal-Khaleej' or document.get('source', None) == 'CNN-Arabic':
+                elif document.get('source', None) == 'ZahraTal-Khaleej':
                     document["language"] = "arabic"
+                    handler = ZahraTalKhaleej_Scraper(soup)
+                    content = handler.extract_content()
 
             
             # Extracting document Title if not present in feed
