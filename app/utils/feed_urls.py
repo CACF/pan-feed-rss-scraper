@@ -945,14 +945,6 @@ feed_urls = {
                 "genre": "Entertainment",
                 "url": "https://zahratalkhaleej.ae/hayat.rss",
             },
-            {
-                "genre": "Entertainment",
-                "url": "https://zahratalkhaleej.ae/manzel.rss",
-            },
-            {
-                "genre": "Entertainment",
-                "url": "https://zahratalkhaleej.ae/zahra.rss",
-            },
         ],
     },
 }
