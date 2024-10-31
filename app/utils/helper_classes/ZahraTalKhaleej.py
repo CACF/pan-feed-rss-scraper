@@ -8,8 +8,13 @@ class ZahraTalKhaleej_Scraper:
         # Remove all video and iframe tags
         for video_tag in self.soup.find_all("video"):
             video_tag.decompose()
+            
         for iframe_tag in self.soup.find_all("iframe"):
             iframe_tag.decompose()
+        
+        for iframe_container in self.soup.find_all("div", recursive=True):
+            if iframe_container.find("iframe"):
+                iframe_container.decompose()
         
         # Remove div with class "slide-up-menu"
         for slide_up_menu in self.soup.find_all("div", class_="slide-up-menu"):
@@ -27,6 +32,10 @@ class ZahraTalKhaleej_Scraper:
         all_p_tags = self.soup.find_all("p")
         
         for p_tag in all_p_tags:
+            # Skip p tags with class 'post-date'
+            if "post-date" in p_tag.get("class", []):
+                continue
+            
             # Stop adding content if a div with class 'article-tags' is encountered
             if p_tag.find_previous("div", class_="article-tags"):
                 break
@@ -43,4 +52,3 @@ class ZahraTalKhaleej_Scraper:
 
         # Trim whitespace from the final content string
         return content.strip()
-    
