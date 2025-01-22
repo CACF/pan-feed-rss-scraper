@@ -4,17 +4,23 @@ from app.utils.feed_urls import feed_urls
 from app.utils.feed_utilities import FeedParser, MongoDBClient
 import re
 
+
 # Function to check if the content meets the criteria
 def is_valid_content(data_obj):
     content = data_obj.get("content")
     content_link = data_obj.get("_id")
     # Remove links from content
     if content:
-        content = re.sub(r'http\S+|www\S+|https\S+', '', content, flags=re.MULTILINE)
-    if not content or content.isspace() or "https://cricketpakistan.com.pk" in content_link:
+        content = re.sub(r"http\S+|www\S+|https\S+", "", content, flags=re.MULTILINE)
+    if (
+        not content
+        or content.isspace()
+        or "https://cricketpakistan.com.pk" in content_link
+    ):
         return False
     word_count = len(content.split())
     return word_count >= 20
+
 
 def feed_starter(data_dict):
     total_time = 0
@@ -40,7 +46,9 @@ def feed_starter(data_dict):
                         media_origin, source_name, genre, url, feed_with_content
                     )
                     # Filter out objects based on the content criteria
-                    cleaned_data_list = [data_obj for data_obj in data_list if is_valid_content(data_obj)]
+                    cleaned_data_list = [
+                        data_obj for data_obj in data_list if is_valid_content(data_obj)
+                    ]
                     # creating an instance of MongoDB
                     mongo_client = MongoDBClient(
                         "mongodb://{}:{}@{}:{}/".format(
@@ -70,22 +78,22 @@ def feed_starter(data_dict):
                         "------------------------------------------------------------------------------\n\n"
                     )
 
-        source_stop_time = time()
-        source_time = source_stop_time - source_start_time
-        total_time += source_time
+            source_stop_time = time()
+            source_time = source_stop_time - source_start_time
+            total_time += source_time
 
-        print(
-            "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-        )
-        print(
-            f'Ingestion of "{source_name}" all genres completed in {round(source_time, 2)} seconds'
-        )
-        print(
-            "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
-        )
+            print(
+                "\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+            )
+            print(
+                f'Ingestion of "{source_name}" all genres completed in {round(source_time, 2)} seconds'
+            )
+            print(
+                "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n"
+            )
 
-    else:
-        print("Failed to fetch XML data. Please check the Feed Links/URLs")
+        else:
+            print("Failed to fetch XML data. Please check the Feed Links/URLs")
 
     print("\n\n######################################################################")
     print(f"Ingestion of all Media-Feed completed in {round(total_time, 2)} seconds")

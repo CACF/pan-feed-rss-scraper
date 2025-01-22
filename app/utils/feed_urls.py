@@ -1,3 +1,21 @@
+from app.utils.helper_classes.AlJazeeraScraper import AlJazeera_Scraper
+from app.utils.helper_classes.AndroidAuthorityScraper import AndroidAuthority_Scraper
+from app.utils.helper_classes.AppInsiderScraper import AppInsider_Scraper
+from app.utils.helper_classes.ArianaScraper import Ariana_Scraper
+from app.utils.helper_classes.BBCScraper import BBC_Scraper
+from app.utils.helper_classes.CNBCScraper import CNBC_Scraper
+from app.utils.helper_classes.GSMArenaScraper import GSMArena_Scraper
+from app.utils.helper_classes.IGNScraper import IGN_Scraper
+from app.utils.helper_classes.LivemintScraper import Livemint_Scraper
+from app.utils.helper_classes.NinetoFiveGoogleScraper import NinetoFiveGoogle_Scraper
+from app.utils.helper_classes.PocketLintScraper import PocketLint_Scraper
+from app.utils.helper_classes.TechCrunchScraper import TechCrunch_Scraper
+from app.utils.helper_classes.TechRadarScraper import TechRadar_Scraper
+from app.utils.helper_classes.TheGuardianScraper import The_Guardian_Scraper
+from app.utils.helper_classes.TheNewsScraper import The_News_Scraper
+from app.utils.helper_classes.ZDNetScraper import ZDNet_Scraper
+
+
 feed_urls = {
     "AP-News": {
         "media_origin": "foreign",
@@ -158,6 +176,7 @@ feed_urls = {
     "CNBC": {
         "media_origin": "foreign",
         "feed_with_content": False,
+        "scraper": CNBC_Scraper,
         "urls": [
             {
                 "genre": "Top-News",
@@ -244,6 +263,7 @@ feed_urls = {
     "The-News": {
         "media_origin": "local",
         "feed_with_content": False,
+        "scraper": The_News_Scraper,
         "urls": [
             {
                 "genre": "Top-News",
@@ -504,6 +524,7 @@ feed_urls = {
     "Al-Jazeera": {
         "media_origin": "foreign",
         "feed_with_content": False,
+        "scraper": AlJazeera_Scraper,
         "urls": [
             {
                 "genre": "Top-News",
@@ -514,6 +535,7 @@ feed_urls = {
     "BBC": {
         "media_origin": "foreign",
         "feed_with_content": False,
+        "scraper": BBC_Scraper,
         "urls": [
             {
                 "genre": "Top-News",
@@ -602,6 +624,7 @@ feed_urls = {
     "The-Guardian": {
         "media_origin": "foreign",
         "feed_with_content": False,
+        "scraper": The_Guardian_Scraper,
         "urls": [
             {
                 "genre": "Top-News",
@@ -880,10 +903,338 @@ feed_urls = {
     "Ariana-News": {
         "media_origin": "foreign",
         "feed_with_content": False,
+        "query": Ariana_Scraper,
         "urls": [
             {
                 "genre": "Top-News",
                 "url": "https://www.ariananews.af/feed/",
+            },
+        ],
+    },
+    "GSMArena": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": GSMArena_Scraper,
+        "urls": [
+            {
+                "genre": "Latest Articles",
+                "url": "https://www.gsmarena.com/rss-news-reviews.php3",
+            },
+        ],
+    },
+    "TheVerge": {
+        "media_origin": "foreign",
+        "feed_with_content": True,
+        "urls": [
+            {
+                "genre": "All Posts",
+                "url": "https://www.theverge.com/rss/index.xml",
+            },
+        ],
+    },
+    "ProPakistani": {
+        "media_origin": "local",
+        "feed_with_content": True,
+        "urls": [
+            {
+                "genre": "Tech and Telecom",
+                "url": "https://propakistani.pk/category/tech-and-telecom/feed/",
+            },
+            {
+                "genre": "Business",
+                "url": "https://propakistani.pk/category/business/feed/",
+            },
+            {
+                "genre": "Sports",
+                "url": "https://propakistani.pk/category/sports/feed/",
+            },
+            {
+                "genre": "Education",
+                "url": "https://propakistani.pk/category/others/education/feed/",
+            },
+        ],
+    },
+    "Business Recorder": {
+        "media_origin": "local",
+        "feed_with_content": True,
+        "urls": [
+            {
+                "genre": "Latest News",
+                "url": "https://www.brecorder.com/feeds/latest-news",
+            },
+        ],
+    },
+    "IGN Pakistan": {
+        "media_origin": "local",
+        "feed_with_content": False,
+        "scraper": IGN_Scraper,
+        "urls": [{"genre": "Latest News", "url": "https://pk.ign.com/feed.xml"}],
+    },
+    "Livemint": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": Livemint_Scraper,
+        "urls": [
+            {"genre": "Companies", "url": "https://www.livemint.com/rss/companies"},
+            {"genre": "Opinion", "url": "https://www.livemint.com/rss/opinion"},
+            {"genre": "Money", "url": "https://www.livemint.com/rss/money"},
+            {"genre": "Politics", "url": "https://www.livemint.com/rss/politics"},
+            {"genre": "Science", "url": "https://www.livemint.com/rss/science"},
+            {"genre": "Industry", "url": "https://www.livemint.com/rss/industry"},
+            {"genre": "Education", "url": "https://www.livemint.com/rss/education"},
+            {"genre": "Sports", "url": "https://www.livemint.com/rss/sports"},
+            {"genre": "Technology", "url": "https://www.livemint.com/rss/technology"},
+            {"genre": "News", "url": "https://www.livemint.com/rss/news"},
+            {"genre": "Markets", "url": "https://www.livemint.com/rss/markets"},
+            {"genre": "AI", "url": "https://www.livemint.com/rss/AI"},
+            {"genre": "Insurance", "url": "https://www.livemint.com/rss/insurance"},
+            {"genre": "Budget", "url": "https://www.livemint.com/rss/budget"},
+            {"genre": "Elections", "url": "https://www.livemint.com/rss/elections"},
+        ],
+    },
+    "9to5Google": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": NinetoFiveGoogle_Scraper,
+        "urls": [
+            {"genre": "Top Stories", "url": "https://9to5google.com/feed/"},
+        ],
+    },
+    "ZDNet": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": ZDNet_Scraper,
+        "urls": [
+            {"genre": "Latest News", "url": "https://www.zdnet.com/news/rss.xml"},
+            {
+                "genre": "AI",
+                "url": "https://www.zdnet.com/topic/artificial-intelligence/rss.xml",
+            },
+            {"genre": "Apple", "url": "https://www.zdnet.com/topic/apple/rss.xml"},
+            {"genre": "Linux", "url": "https://www.zdnet.com/topic/linux/rss.xml"},
+            {
+                "genre": "Microsoft",
+                "url": "https://www.zdnet.com/topic/microsoft/rss.xml",
+            },
+            {
+                "genre": "Open Source",
+                "url": "https://www.zdnet.com/topic/open-source/rss.xml",
+            },
+            {
+                "genre": "Security",
+                "url": "https://www.zdnet.com/topic/security/rss.xml",
+            },
+        ],
+    },
+    "TechCrunch": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": TechCrunch_Scraper,
+        "urls": [
+            {"genre": "Latest", "url": "https://techcrunch.com/feed/"},
+            {
+                "genre": "AI",
+                "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+            },
+            {
+                "genre": "Startups",
+                "url": "https://techcrunch.com/category/startups/feed/",
+            },
+            {
+                "genre": "Venture",
+                "url": "https://techcrunch.com/category/venture/feed/",
+            },
+            {"genre": "Apple News", "url": "https://techcrunch.com/tag/apple/feed/"},
+            {
+                "genre": "Apps",
+                "url": "https://techcrunch.com/category/apps/feed/",
+            },
+            {
+                "genre": "Security",
+                "url": "https://techcrunch.com/category/security/feed/",
+            },
+        ],
+    },
+    "AppInsider": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": AppInsider_Scraper,
+        "urls": [
+            {"genre": "Latest News", "url": "https://appleinsider.com/rss/news"},
+        ],
+    },
+    "Pocket-Lint": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": PocketLint_Scraper,
+        "urls": [
+            {
+                "genre": "All Articles",
+                "url": "https://www.pocket-lint.com/feed/",
+            },
+            {
+                "genre": "News",
+                "url": "https://www.pocket-lint.com/feed/news/",
+            },
+            {
+                "genre": "Devices",
+                "url": "https://www.pocket-lint.com/feed/devices-segment/",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://www.pocket-lint.com/feed/entertainment-segment/",
+            },
+            {
+                "genre": "AR & VR",
+                "url": "https://www.pocket-lint.com/feed/ar-vr/",
+            },
+            {
+                "genre": "Cameras",
+                "url": "https://www.pocket-lint.com/feed/cameras/",
+            },
+            {
+                "genre": "Fitness Trackers",
+                "url": "https://www.pocket-lint.com/feed/fitness-trackers/",
+            },
+            {
+                "genre": "Gadgets",
+                "url": "https://www.pocket-lint.com/feed/gadgets/",
+            },
+            {
+                "genre": "Games",
+                "url": "https://www.pocket-lint.com/feed/games/",
+            },
+            {
+                "genre": "Movies & TV",
+                "url": "https://www.pocket-lint.com/feed/movies-tv/",
+            },
+            {
+                "genre": "Smart Watches",
+                "url": "https://www.pocket-lint.com/feed/smartwatches/",
+            },
+            {
+                "genre": "Speakers",
+                "url": "https://www.pocket-lint.com/feed/speakers/",
+            },
+            {
+                "genre": "Retro tech",
+                "url": "https://www.pocket-lint.com/feed/retro-tech/",
+            },
+            {
+                "genre": "Viral tech",
+                "url": "https://www.pocket-lint.com/feed/viral-tech/",
+            },
+        ],
+    },
+    "Android Authority": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "query": AndroidAuthority_Scraper,
+        "urls": [
+            {"genre": "News", "url": "https://www.androidauthority.com/news/feed/"},
+            {
+                "genre": "Features Opinions",
+                "url": "https://www.androidauthority.com/features/feed/",
+            },
+            {
+                "genre": "Reviews",
+                "url": "https://www.androidauthority.com/reviews/feed/",
+            },
+            {
+                "genre": "Best products",
+                "url": "https://www.androidauthority.com/best/feed/",
+            },
+            {
+                "genre": "Authority Insights",
+                "url": "https://www.androidauthority.com/tag/authority-insights/feed/",
+            },
+        ],
+    },
+    "TechRadar": {
+        "media_origin": "foreign",
+        "feed_with_content": False,
+        "scraper": TechRadar_Scraper,
+        "urls": [
+            {"genre": "All Articles", "url": "https://www.techradar.com/feeds.xml"},
+            {
+                "genre": "News",
+                "url": "https://www.techradar.com/feeds/articletype/news",
+            },
+            {
+                "genre": "Reviews",
+                "url": "https://www.techradar.com/feeds/articletype/review",
+            },
+            {
+                "genre": "Buying Guides",
+                "url": "https://www.techradar.com/feeds/articletype/best",
+            },
+            {
+                "genre": "Deals",
+                "url": "https://www.techradar.com/feeds/articletype/deals",
+            },
+            {
+                "genre": "Features",
+                "url": "https://www.techradar.com/feeds/articletype/feature",
+            },
+            {
+                "genre": "Opinions",
+                "url": "https://www.techradar.com/feeds/articletype/opinion",
+            },
+            {
+                "genre": "Phones",
+                "url": "https://www.techradar.com/feeds/tag/phones",
+            },
+            {
+                "genre": "Televisions",
+                "url": "https://www.techradar.com/feeds/tag/televisions",
+            },
+            {
+                "genre": "Entertainment",
+                "url": "https://www.techradar.com/feeds/tag/entertainment",
+            },
+            {
+                "genre": "Health &amp; fitness",
+                "url": "https://www.techradar.com/feeds/tag/health-fitness",
+            },
+            {
+                "genre": "Computing",
+                "url": "https://www.techradar.com/feeds/tag/computing",
+            },
+            {
+                "genre": "Computing components",
+                "url": "https://www.techradar.com/feeds/tag/computing-components",
+            },
+            {
+                "genre": "Smart home",
+                "url": "https://www.techradar.com/feeds/tag/smart-home",
+            },
+            {
+                "genre": "Gaming",
+                "url": "https://www.techradar.com/feeds/tag/gaming",
+            },
+            {
+                "genre": "Audio",
+                "url": "https://www.techradar.com/feeds/tag/audio",
+            },
+            {
+                "genre": "Home cinema",
+                "url": "https://www.techradar.com/feeds/tag/home-cinema",
+            },
+            {
+                "genre": "Internet",
+                "url": "https://www.techradar.com/feeds/tag/internet",
+            },
+            {
+                "genre": "Cameras",
+                "url": "https://www.techradar.com/feeds/tag/cameras",
+            },
+            {
+                "genre": "Software",
+                "url": "https://www.techradar.com/feeds/tag/software",
+            },
+            {
+                "genre": "Home",
+                "url": "https://www.techradar.com/feeds/tag/home",
             },
         ],
     },

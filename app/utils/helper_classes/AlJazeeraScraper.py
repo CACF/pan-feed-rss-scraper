@@ -1,13 +1,18 @@
+from bs4 import BeautifulSoup
+import requests
+
+
 class AlJazeera_Scraper:
-    def __init__(self, soup):
-        self.soup = soup
+    def __init__(self, link):
+        self.response = requests.get(link)
+        self.soup = BeautifulSoup(self.response.text, "html.parser")
         self.content = ""
 
     def extract_content(self):
         main_content = self.soup.find(id="main-content-area")
         if main_content:
             # Find all p and li tags, excluding those inside the specified divs and figures
-            for tag in main_content.find_all(['p', 'li']):
+            for tag in main_content.find_all(["p", "li"]):
                 # Check if the tag is inside a div or figure we want to exclude
                 parent_divs = tag.find_parents(["div", "figure"])
                 if any(

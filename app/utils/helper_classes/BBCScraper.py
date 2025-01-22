@@ -1,8 +1,11 @@
 from bs4 import BeautifulSoup
+import requests
+
 
 class BBC_Scraper:
-    def __init__(self, soup):
-        self.soup = soup
+    def __init__(self, link):
+        self.response = requests.get(link)
+        self.soup = BeautifulSoup(self.response.text, "html.parser")
         self.content = ""
 
     def extract_content(self):
@@ -22,4 +25,3 @@ class BBC_Scraper:
         for tag in all_tags:
             self.content += tag.get_text().strip() + "\n"
         return self.content
-    
